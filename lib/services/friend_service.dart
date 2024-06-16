@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 class FriendService {
   final String api = '666d76367a3738f7cacc6e6a.mockapi.io';
-  final String endpoint = 'friends/';
+  final String endpoint = 'friends';
   final limit = 10;
 
   Future<List<Friend>> findAll(int page) async {
