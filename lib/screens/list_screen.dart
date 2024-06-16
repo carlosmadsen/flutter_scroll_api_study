@@ -17,6 +17,7 @@ class _ListScreenState extends State<ListScreen> {
   List<Friend> _list = [];
   bool _firstLoadRealized = false;
   bool _loadingMoreFriends = false;
+  bool _showGoBackButton = false;
   bool _continueRequest = true;
   final ScrollController _scrollController = ScrollController();
 
@@ -48,10 +49,12 @@ class _ListScreenState extends State<ListScreen> {
       });
     } else {
       print("Não tem mais registro na API, para requisições.");
-      _continueRequest = false;
+
       if (_loadingMoreFriends) {
         setState(() {
+          _continueRequest = false;
           _loadingMoreFriends = false;
+          _showGoBackButton = true;
         });
       }
     }
@@ -94,6 +97,24 @@ class _ListScreenState extends State<ListScreen> {
                     : Container(
                         height: 0,
                       ),
+                _showGoBackButton
+                    ? ElevatedButton(
+                        onPressed: () {
+                          _scrollController.animateTo(
+                            0.0, // posição para rolar
+                            duration: const Duration(
+                                seconds: 1), // duração da animação
+                            curve: Curves.easeInOut, // curva da animação
+                          );
+                          setState(() {
+                            _showGoBackButton = false;
+                          });
+                        },
+                        child: Text('Voltar'),
+                      )
+                    : Container(
+                        height: 0,
+                      )
               ],
             )
           : _firstLoadRealized
